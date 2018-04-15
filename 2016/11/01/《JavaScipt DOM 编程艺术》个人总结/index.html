@@ -1,0 +1,655 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="前端,JavaScript,DOM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="概述JavaScript定义JavaScript ( JS ) 是一种轻量级、解释型、基于原型、多范式的动态脚本语言，并且支持面向对象、命令式和声明式（如：函数式编程）编程风格。其主要包含三部分：ECMAScript、BOM和DOM。  ECMAScript-(European Computer Manufacturers Association):描述了该语言的语法和基本对象。 BOM-(Bro">
+<meta name="keywords" content="前端,JavaScript,DOM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《JavaScipt DOM 编程艺术》个人总结">
+<meta property="og:url" content="https://gordon8.github.io/2016/11/01/《JavaScipt DOM 编程艺术》个人总结/index.html">
+<meta property="og:site_name" content="Gordon">
+<meta property="og:description" content="概述JavaScript定义JavaScript ( JS ) 是一种轻量级、解释型、基于原型、多范式的动态脚本语言，并且支持面向对象、命令式和声明式（如：函数式编程）编程风格。其主要包含三部分：ECMAScript、BOM和DOM。  ECMAScript-(European Computer Manufacturers Association):描述了该语言的语法和基本对象。 BOM-(Bro">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2016-11-19T03:22:48.851Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《JavaScipt DOM 编程艺术》个人总结">
+<meta name="twitter:description" content="概述JavaScript定义JavaScript ( JS ) 是一种轻量级、解释型、基于原型、多范式的动态脚本语言，并且支持面向对象、命令式和声明式（如：函数式编程）编程风格。其主要包含三部分：ECMAScript、BOM和DOM。  ECMAScript-(European Computer Manufacturers Association):描述了该语言的语法和基本对象。 BOM-(Bro">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://gordon8.github.io/2016/11/01/《JavaScipt DOM 编程艺术》个人总结/"/>
+
+
+  <title> 《JavaScipt DOM 编程艺术》个人总结 | Gordon </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Gordon</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                《JavaScipt DOM 编程艺术》个人总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-01T17:47:13+08:00" content="2016-11-01">
+              2016-11-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="JavaScript定义"><a href="#JavaScript定义" class="headerlink" title="JavaScript定义"></a>JavaScript定义</h3><p>JavaScript ( JS ) 是一种轻量级、解释型、基于原型、多范式的动态脚本语言，并且支持面向对象、命令式和声明式（如：函数式编程）编程风格。其主要包含三部分：ECMAScript、BOM和DOM。</p>
+<ol>
+<li>ECMAScript-(European Computer Manufacturers Association):描述了该语言的语法和基本对象。</li>
+<li>BOM-(Browser Object Model)浏览器对象模型:描述与浏览器进行交互的方法和接口。</li>
+<li>DOM-(Document Object Model)文档对象模型:描述处理网页内容的方法和接口。</li>
+</ol>
+<h3 id="本书精髓"><a href="#本书精髓" class="headerlink" title="本书精髓"></a>本书精髓</h3><p>本书只介绍最基本的JavaScript语法，把重心主要放在介绍DOM编程技术背后的思路和原则。本书的理念精髓为：平稳退化、渐进增强、以用户为中心。</p>
+<a id="more"></a>
+<h2 id="DOM-方法和属性"><a href="#DOM-方法和属性" class="headerlink" title="DOM 方法和属性"></a>DOM 方法和属性</h2><h3 id="DOM-常用方法"><a href="#DOM-常用方法" class="headerlink" title="DOM 常用方法"></a>DOM 常用方法</h3><ol>
+<li>创建节点<ul>
+<li>创建元素节点 document.createElement(element)</li>
+<li>创建文本节点 document.createTextNode(text)</li>
+</ul>
+</li>
+<li>复制节点<br>node.cloneNode(deep)<br>若需克隆所有后代，请把 deep 参数设置 true，否则设置为 false。</li>
+<li>插入节点<ul>
+<li>插入子节点 element.appendChild(newChild)<br>给定子节点newchild 将成为给定元素节点element 的最后一个子节点。</li>
+<li>插入兄弟节点 element.insertBefore(newNode, targetNode)<br>节点newNode将被插入元素节点element 并出现在节点targetNode的前面。节点targetNode必须是element元素的一个子节点。如果targetNode节点未给出，newNode节点就将被追加为element元素的最后一个子节点。</li>
+<li>插入内容 HTMLElementObject.innerHTML=text<br>用来设置或返回元素的innerHTML。</li>
+</ul>
+</li>
+<li>删除节点<br>element.removeChild(node) 该方法的返回值是一个指向已被删除的子节点的引用指针。当某个节点被removeChild()方法删除时，这个节点所包含的所有子节点将同时被删除。若想把某个节点从文档的一个部分移动到另一个部分，你不必使用removeChild()方法。appendChild()和insertBefore()方法都自动地先删除这个节点再把它重新插入到新位置去。</li>
+<li>替换节点<br>element.replaceChild(newChild, oldChild)<br>oldchild节点必须是element元素的一个子节点。它的返回值是一个指向已被替换的那个子节点的引用指针。replaceChild()方法也可以用文档树上的现有节点去替换另一个现有节点。如果newchild节点是文档树上的一个现有节点，replaceChild()方法将先删除它再用它去替换oldchild节点。</li>
+<li>设置属性节点<br>element.setAttribute(attributeName, attributeValue)<br>属性的名字和值必须以字符串的形式传递给此方法。如果这个属性已经存在，它的值将被刷新；如果不存在，setAttribute()方法将先创建它再为其赋值。setAttribute()方法只能用在属性节点上。</li>
+<li>查找节点<ul>
+<li>查找属性节点 element.getAttribute(attributeName) 给定属性的名字必须以字符串的形式传递给这个方法。给定属性的值将以字符串的形式返回。如果给定属性不存在，getAttribute()方法将返回一个空字符串。</li>
+<li>查找元素节点<ol>
+<li>document.getElementById(ID) 方法将返回一个有着给定id 属性值的元素节点。如果不存在这样的元素，它返回null。这个方法只能用于document对象。该方法返回的元素节点是一个对象，这个对象有着nodeName、nodeType、parentNode、childNodes 等属性。</li>
+<li>document.getElementsByName(name) 该方法与 getElementById()方法相似，但是它查询元素的 name 属性，而不是 id 属性。</li>
+<li>element.getElementsByTagName(tagname) 该方法将返回一个节点集合，这个集合可以当作一个数组来处理。这个集合的length 属性等于当前文档里有着给定标签名的所有元素的总个数。这个数组里的每个元素都是一个对象，它们都有着nodeName、nodeType、parentNode、childNodes 等属性。该方法不必非得用在整个文档上。它也可以用来在某个特定元素的子节点当中寻找有着给定标签名的元素。</li>
+<li>element.getElementsByClassName(names) 该方法与 getElementsByTagName()方法相似，但是它查询元素的 class 属性，而不是 tag 名。</li>
+</ol>
+</li>
+<li>检查一个给定元素是否有子节点 element.hasChildNodes 该方法通常与if语句配合使用。如果这个元素有子节点，就把它们以一个数组保存到变量中。若hasChildNodes 方法返回false，给定元素的firstchild 和lastchild 属性也将为空。</li>
+</ul>
+</li>
+</ol>
+<h3 id="DOM-属性"><a href="#DOM-属性" class="headerlink" title="DOM 属性"></a>DOM 属性</h3><ol>
+<li>节点的属性<ul>
+<li>节点名 node.nodeName<br>只读属性，若给定节点是一个元素节点，nodeName属性将返回这个元素的名字（大写字母形式），这在效果上相当于tagName属性。若给定节点是一个属性节点，nodeName属性将返回这个属性的名字。若给定节点是一个文本节点，nodeName属性将返回一个内容为#text的字符串。</li>
+<li>节点类型 node.nodeType<br>只读属性，共存在12种不同的节点类型，其中1~3非常重要：<ol>
+<li>元素 ELEMENT_NODE</li>
+<li>属性 ATTRIBUTE_NODE</li>
+<li>文本 TEXT_NODE<br>通常与if语句配合使用,以确保不会在错误的节点类型上执行无效或非法的操作。</li>
+</ol>
+</li>
+<li>节点值 node.nodeValue<br>该属性将返回一个字符串。若给定节点是一个属性节点，nodeValue属性将返回这个属性的值。若给定节点是一个文本节点，nodeValue属性将返回这个文本节点的内容。若给定节点是一个元素节点，nodeValue属性将返回null。该属性是一个读/写属性。不过你不能为元素节点的nodeValue属性设置一个值。</li>
+</ul>
+</li>
+<li>遍历节点树<ul>
+<li>子节点 node.childNodes<br>只读属性，将返回一个数组，这个数组由给定元素节点的子节点构成。</li>
+<li>第一个子节点 firstChild<br>只读属性，返回一个节点对象的引用指针。</li>
+<li>最后一个子节点 lastChild<br>只读属性，返回一个节点对象的引用指针。</li>
+<li>下一个子节点 nextSibling<br>只读属性，返回一个节点对象的引用指针。若给定节点的前面没有同属一个父节点的节点，它的nextSibling属性将返回null。</li>
+<li>父节点 parentNode<br>只读属性，属性返回的节点永远是一个元素节点，因为只有元素节点才有可能包含子节点。唯一的例外是document节点，它的parentNode属性将返回null。</li>
+<li>前一个子节点 previousSibling<br>只读属性，返回一个节点对象的引用指针。若给定节点的前面没有同属一个父节点的节点，它的previousSibling属性将返回null。</li>
+</ul>
+</li>
+</ol>
+<h2 id="重点总结"><a href="#重点总结" class="headerlink" title="重点总结"></a>重点总结</h2><h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><ol>
+<li>平稳退化（优雅降级）<br>首先使用最新的技术面向高级浏览器构建最强的功能及用户体验，然后针对低级的浏览器进行限制，逐步衰减那些无法被支持的功能及体验。使用平稳退化技术时，你必须首先完整的实现了网站，其中包括所有的功能和特效。 然后再为那些无法支持所有功能的浏览器增加候选方案，使之在旧市的浏览器上可以以某种形式降级体验却不至于完全失效。</li>
+<li>渐进增强<br>渐进增强的概念就是，指从最基本的可用性出发，在保证站点页面在低级浏览器中的可用性和可访问性的基础上，逐步增强功能及提高用户体验。渐进增强方案并不假定所有的用户都支持javascript，而总是提供一种候补方法，确保用户可以访问（主要的）内容。</li>
+<li>分离JavaScript<br>尽量使网页结构、样式和JavaScript脚本的动作行为分离，使其各司其职。</li>
+<li>向后兼容性<br>确保老版本的浏览器不会因为JavaScript脚本影响基本的正常工作。</li>
+<li>性能优化<br>减少 HTTP请求数，减少DOM操作，减少作用域链查找等。</li>
+</ol>
+<h3 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h3><ol>
+<li>定义<br>(Asynchronous JavaScript and XML)代表异步 JavaScript + XML, 本身不是一种技术, 是在2005年由 Jesse James Garrett 提出的一个术语, 描述了一种“新”的结合使用大量已经存在的技术的方式, 包括: HTML 或 XHTML, CSS, JavaScript, DOM, XML, XSLT, 还有最重要的 XMLHttpRequest 对象。</li>
+<li>主要优势<ul>
+<li>对页面的请求以异步的方式发送到服务器，做到不用刷新网页，只更新页面中的一小部分。</li>
+<li>对XML文档的解析和处理。</li>
+</ul>
+</li>
+<li>执行步骤 <a href="https://developer.mozilla.org/zh-CN/docs/AJAX/Getting_Started" target="_blank" rel="noopener">详解</a><ol>
+<li>步骤 1 – “请!” — 如何发送一个HTTP请求</li>
+<li>步骤 2 – “收到!” — 处理服务器的响应</li>
+<li>步骤 3 – “万事俱备!” - 简单实例</li>
+<li>步骤 4 – “X-档案” — 处理XML响应</li>
+</ol>
+</li>
+</ol>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li>JavaScript脚本只应该用来充实文档内容，应避免使用其来创建文档的核心内容。</li>
+<li>尽量采用更新元素className属性的方法来改变其样式，而不是直接更新其style对象的有关属性。</li>
+<li>实现动画效果的常用方法为将元素的position设为absolute,改变其top或left值。</li>
+</ol>
+<h2 id="实战总结-demo"><a href="#实战总结-demo" class="headerlink" title="实战总结 demo"></a>实战总结 <a href="https://gordon8.github.io/demo/domsters/">demo</a></h2><h3 id="项目执行步骤"><a href="#项目执行步骤" class="headerlink" title="项目执行步骤"></a>项目执行步骤</h3><ol>
+<li>规划站点结构</li>
+<li>规划网站页面整体结构</li>
+<li>设计样式</li>
+<li>用JavaScript增强网页体验</li>
+</ol>
+<h3 id="心得体会"><a href="#心得体会" class="headerlink" title="心得体会"></a>心得体会</h3><ol>
+<li>网站包含的所有页面风格一致，因此先创建HTML模板文档非常有必要</li>
+<li>CSS文档要逻辑清晰</li>
+<li>创建JavaScript函数要尽量考虑将其抽象化，以增强其复用性。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag">#前端</a>
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/DOM/" rel="tag">#DOM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/07/电商网站模块化布局项目总结/" rel="prev" title="电商网站模块化布局项目总结">
+                电商网站模块化布局项目总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="gordon" />
+          <p class="site-author-name" itemprop="name">gordon</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JavaScript定义"><span class="nav-number">1.1.</span> <span class="nav-text">JavaScript定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本书精髓"><span class="nav-number">1.2.</span> <span class="nav-text">本书精髓</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM-方法和属性"><span class="nav-number">2.</span> <span class="nav-text">DOM 方法和属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM-常用方法"><span class="nav-number">2.1.</span> <span class="nav-text">DOM 常用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM-属性"><span class="nav-number">2.2.</span> <span class="nav-text">DOM 属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重点总结"><span class="nav-number">3.</span> <span class="nav-text">重点总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#最佳实践"><span class="nav-number">3.1.</span> <span class="nav-text">最佳实践</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ajax"><span class="nav-number">3.2.</span> <span class="nav-text">Ajax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">3.3.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战总结-demo"><span class="nav-number">4.</span> <span class="nav-text">实战总结 demo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#项目执行步骤"><span class="nav-number">4.1.</span> <span class="nav-text">项目执行步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#心得体会"><span class="nav-number">4.2.</span> <span class="nav-text">心得体会</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gordon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
