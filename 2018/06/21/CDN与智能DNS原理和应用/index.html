@@ -1,0 +1,594 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CDN,DNS,优化," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="CDN是什么？Content Delivery Network，即内容分发网络优点：使用户可就近取得所需内容，提高用户访问网站的响应速度CDN=更智能的镜像+缓存+流量导流 DNS是什么？Domain Name System，域名系统域名和IP地址相互映射的一个分布式数据库不用去记住能够被机器直接读取的IP">
+<meta name="keywords" content="CDN,DNS,优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CDN与智能DNS原理和应用">
+<meta property="og:url" content="https://gordon8.github.io/2018/06/21/CDN与智能DNS原理和应用/index.html">
+<meta property="og:site_name" content="Gordon">
+<meta property="og:description" content="CDN是什么？Content Delivery Network，即内容分发网络优点：使用户可就近取得所需内容，提高用户访问网站的响应速度CDN=更智能的镜像+缓存+流量导流 DNS是什么？Domain Name System，域名系统域名和IP地址相互映射的一个分布式数据库不用去记住能够被机器直接读取的IP">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-21T12:57:38.932Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CDN与智能DNS原理和应用">
+<meta name="twitter:description" content="CDN是什么？Content Delivery Network，即内容分发网络优点：使用户可就近取得所需内容，提高用户访问网站的响应速度CDN=更智能的镜像+缓存+流量导流 DNS是什么？Domain Name System，域名系统域名和IP地址相互映射的一个分布式数据库不用去记住能够被机器直接读取的IP">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://gordon8.github.io/2018/06/21/CDN与智能DNS原理和应用/"/>
+
+
+  <title> CDN与智能DNS原理和应用 | Gordon </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Gordon</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CDN与智能DNS原理和应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-06-21T20:55:14+08:00" content="2018-06-21">
+              2018-06-21
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="CDN是什么？"><a href="#CDN是什么？" class="headerlink" title="CDN是什么？"></a>CDN是什么？</h2><p>Content Delivery Network，即内容分发网络<br>优点：使用户可就近取得所需内容，提高用户访问网站的响应速度<br>CDN=更智能的镜像+缓存+流量导流</p>
+<h2 id="DNS是什么？"><a href="#DNS是什么？" class="headerlink" title="DNS是什么？"></a>DNS是什么？</h2><p>Domain Name System，域名系统<br>域名和IP地址相互映射的一个分布式数据库<br>不用去记住能够被机器直接读取的IP<br><a id="more"></a> </p>
+<h2 id="CDN加速原理"><a href="#CDN加速原理" class="headerlink" title="CDN加速原理"></a>CDN加速原理</h2><h3 id="内容缓存"><a href="#内容缓存" class="headerlink" title="内容缓存"></a>内容缓存</h3><ol>
+<li>squid作为Web服务</li>
+<li>内容缓存到内存和本地文件</li>
+<li>页面访问速度极高</li>
+</ol>
+<h3 id="分布在全国各地的网络节点"><a href="#分布在全国各地的网络节点" class="headerlink" title="分布在全国各地的网络节点"></a>分布在全国各地的网络节点</h3><ol>
+<li>全国近百个城市</li>
+<li>2、3百个服务器节点</li>
+<li>迅雷星域属于流量共享模式，上百万个节点（普通用户）</li>
+</ol>
+<h3 id="多线路支持"><a href="#多线路支持" class="headerlink" title="多线路支持"></a>多线路支持</h3><ol>
+<li>同时支持电信、网通、联通等多种线路</li>
+<li>不同于双线机房的双线接入</li>
+<li>减少跨网访问</li>
+</ol>
+<h3 id="适用范围"><a href="#适用范围" class="headerlink" title="适用范围"></a>适用范围</h3><ol>
+<li>静态和更新频率低的内容更适用</li>
+<li>数据流量大的产品更适用（视频、图片、直播、下载）</li>
+<li>带宽价格更便宜</li>
+</ol>
+<h2 id="CDN的具体使用"><a href="#CDN的具体使用" class="headerlink" title="CDN的具体使用"></a>CDN的具体使用</h2><h3 id="管理功能-DNS解析-amp-CDN后台配置"><a href="#管理功能-DNS解析-amp-CDN后台配置" class="headerlink" title="管理功能(DNS解析&amp;CDN后台配置)"></a>管理功能(DNS解析&amp;CDN后台配置)</h3><ol>
+<li>域名列表<br>文件刷新（刷新频率、手动刷新）<br>文件预缓存（内容推送到所有节点）<br>目录刷新<br>证书管理（HTTPS）</li>
+<li>数据分析（带宽统计、流量、命中率、请求数、状态码、日志下载）</li>
+<li>用户中心（资质认证、账号总览、计费类型、费用管理）</li>
+</ol>
+<h2 id="DNS解析的过程"><a href="#DNS解析的过程" class="headerlink" title="DNS解析的过程"></a>DNS解析的过程</h2><p>浏览器缓存、本机hosts文件、路由器缓存、本地DNS服务器、区域DNS服务器、13台根域服务器、.com顶级域、主域名、ISP商DNS服务器</p>
+<h2 id="智能DNS的原理和作用"><a href="#智能DNS的原理和作用" class="headerlink" title="智能DNS的原理和作用"></a>智能DNS的原理和作用</h2><p>智能的匹配线路和位置：根据用户的IP确定其地理位置&amp;线路；匹配最近的线路及位置。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>好的CDN服务让互联网产品更简单高效、可靠（类似京东物流）</p>
+<ol>
+<li>智能DNS让用户可以让用户访问同线路最近的服务器</li>
+<li>CDN缓存可加快访问速度，也可以缓解源服务器压力</li>
+<li>CDN让大规模用户请求架构变得简单</li>
+<li>CDN流量越高价格越便宜</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CDN/" rel="tag">#CDN</a>
+          
+            <a href="/tags/DNS/" rel="tag">#DNS</a>
+          
+            <a href="/tags/优化/" rel="tag">#优化</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/06/webpack学习笔记/" rel="next" title="webpack学习笔记">
+                <i class="fa fa-chevron-left"></i> webpack学习笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="gordon" />
+          <p class="site-author-name" itemprop="name">gordon</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CDN是什么？"><span class="nav-number">1.</span> <span class="nav-text">CDN是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS是什么？"><span class="nav-number">2.</span> <span class="nav-text">DNS是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CDN加速原理"><span class="nav-number">3.</span> <span class="nav-text">CDN加速原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内容缓存"><span class="nav-number">3.1.</span> <span class="nav-text">内容缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布在全国各地的网络节点"><span class="nav-number">3.2.</span> <span class="nav-text">分布在全国各地的网络节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线路支持"><span class="nav-number">3.3.</span> <span class="nav-text">多线路支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适用范围"><span class="nav-number">3.4.</span> <span class="nav-text">适用范围</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CDN的具体使用"><span class="nav-number">4.</span> <span class="nav-text">CDN的具体使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#管理功能-DNS解析-amp-CDN后台配置"><span class="nav-number">4.1.</span> <span class="nav-text">管理功能(DNS解析&amp;CDN后台配置)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS解析的过程"><span class="nav-number">5.</span> <span class="nav-text">DNS解析的过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#智能DNS的原理和作用"><span class="nav-number">6.</span> <span class="nav-text">智能DNS的原理和作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gordon</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
